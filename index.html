@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Mob Pattern</title>
+		<style>
+			body {
+				height: 100vh;
+				margin: 0;
+				overflow: hidden;
+			}
+
+			.circle {
+				animation: rotate 5s linear infinite;
+				background: conic-gradient(purple -36deg 36deg, orange, red, purple 180deg 216deg, orange, red, purple);
+				border-radius: 4rem;
+				left: -40px;
+				height: 80px;
+				min-height: 80px;
+				min-width: 80px;
+				position: absolute;
+				top: -40px;
+				width: 80px;
+			}
+
+			.overlay {
+				height: 100%;
+				background: linear-gradient(-45deg, blue, orange);
+				left: 0;
+				opacity: 0.5;
+				position: absolute;
+				top: 0;
+				width: 100%;
+				z-index: 1;
+			}
+
+			@keyframes rotate {
+				from {
+					transform: rotate(0deg);
+				}
+				to {
+					transform: rotate(360deg);
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="overlay"></div>
+		<script>
+			function drawCircles() {
+				const CIRCLE_WIDTH = 80;
+				const PROXIMITY_RATIO = 7 / 10;
+				const OFFSET = CIRCLE_WIDTH * PROXIMITY_RATIO;
+				const height = parseInt(getComputedStyle(document.body).height.replace('px', ''));
+				const width = parseInt(getComputedStyle(document.body).width.replace('px', ''));
+				const numVertical = Math.ceil(height / CIRCLE_WIDTH) * (1 / PROXIMITY_RATIO) + 1;
+				const numHorizontal = Math.ceil(width / CIRCLE_WIDTH) * (1 / PROXIMITY_RATIO) + 1;
+				for (let i = 0; i < numHorizontal; i++) {
+					for (let j = 0; j < numVertical; j++) {
+						const circle = document.createElement('div');
+						circle.className = 'circle';
+						circle.style.top = `${OFFSET * j - CIRCLE_WIDTH / 4}px`;
+						circle.style.left = `${OFFSET * i - CIRCLE_WIDTH / 4}px`;
+						document.body.appendChild(circle);
+					}
+				}
+			}
+
+			window.onload = drawCircles;
+			window.addEventListener('resize', drawCircles);
+		</script>
+	</body>
+</html>
